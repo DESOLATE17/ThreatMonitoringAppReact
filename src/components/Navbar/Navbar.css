@@ -1,0 +1,12 @@
+.navbar_text:hover {
+    color: #00A88E;
+}
+
+.navbar_text {
+    font-size: 1.25em;
+}
+
+.navbar_title {
+    color: #00A88E;
+    font-size: 1.5em;
+}

@@ -1,0 +1,28 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background-image: linear-gradient(to right top, #21007e, #3c0d89, #521c94, #6629a0, #7a37ab, #7837aa, #7738a8, #7538a7, #5e2b98, #461f8a, #2c147b, #04096d);
+}
+
+html {
+  background-color: #212121;
+  color: white;
+  font-family: "Arial", monospace;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+}
+
+.site-name {
+  margin-top: 12px;
+  margin-left: 2%;
+  font-size: 1.25em;
+}
+
+.site-header {
+  width: 100%;
+}
