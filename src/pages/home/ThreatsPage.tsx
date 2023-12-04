@@ -74,7 +74,7 @@ const Threats: FC = () => {
                         </Card.Body>
                         <Card.Img className="card__image" src={item.image} onError={({ currentTarget }) => {
                             currentTarget.onerror = null; // prevents looping
-                            currentTarget.src="/images/default.jpeg";
+                            currentTarget.src="./assets/default.jpeg";
                         }}></Card.Img>
                     </Card>
                 </a>

@@ -18,6 +18,10 @@ const AppRouter: FC = () => {
             {
                 path: '/threats/:threatId',
                 element: <ThreatPage />
+            },
+            {
+                path: '*',
+                element: <Threats />
             }
         ]
     )
