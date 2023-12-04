@@ -23,6 +23,7 @@ const Threats: FC = () => {
     const handleSearch = async () =>{
         setLoading(true)
         const { draftId, threats } = await getThreatsList(searchValue, lowPrice, highPrice)
+        console.log(draftId)
         setThreats(threats)
         setLoading(false) 
     }

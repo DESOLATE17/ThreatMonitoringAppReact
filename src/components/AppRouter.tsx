@@ -1,5 +1,5 @@
 import { FC} from 'react'
-import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Threats from '../pages/home/ThreatsPage'
 import ThreatPage from '../pages/threat/ThreatPage'
 

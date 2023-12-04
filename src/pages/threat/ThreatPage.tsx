@@ -1,14 +1,13 @@
 import { FC, useEffect, useState } from 'react'
 import {Card } from 'react-bootstrap'
 import { Threat, mockThreats } from '../../models/Threats'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Navbar from '../../components/Navbar/Navbar'
 import './ThreatPage.css'
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs'
 
 const ThreatPage: FC = () => {
     const params = useParams();
-    const navigate = useNavigate();
 
     const [card, setCard] = useState<Threat>(mockThreats[0]);
 
@@ -19,8 +18,8 @@ const ThreatPage: FC = () => {
     }
 
     const fetchThreat = async() => {
-        console.log(params.threatId)
-        const threat = await getThreatById(params.threatId);
+        var threatId:string = params.threatId ? params.threatId : "1"
+        const threat = await getThreatById(threatId);
         setCard(threat);
         console.log(threat.description)
     }
