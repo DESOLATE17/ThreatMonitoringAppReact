@@ -50,7 +50,7 @@ const ThreatPage: FC = () => {
                 </Card.Body>
             <Card.Img className="card__image" src={card.image} onError={({ currentTarget }) => {
                             currentTarget.onerror = null; // prevents looping
-                            currentTarget.src="https://github.com/DESOLATE17/ThreatMonitoringAppReact/blob/gh-pages/images/default.jpeg";
+                            currentTarget.src="../../../dist/default.jpeg";
                         }}/>
             </Card>
         </div>
