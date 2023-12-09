@@ -20,6 +20,12 @@
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
+    transition: transform 0.3s;
+
+}
+
+.card:hover {
+    transform: scale(1.02);
 }
 
 a {
