@@ -3,35 +3,37 @@ import { Spinner } from 'react-bootstrap'
 import InputField from '../../components/Search/Search'
 import './ThreatsPage.css'
 import '../../components/ThreatCard/ThreatCard.css'
-import { Threat, ThreatsList, mockThreats } from '../../models/Threats'
+import { Threat, mockThreats } from '../../models/Threats'
 import {Card} from 'react-bootstrap'
 import Navbar from '../../components/Navbar/Navbar'
 import { Filter } from '../../components/Filter/Filter'
 import  Breadcrumbs  from '../../components/Breadcrumbs/Breadcrumbs'
-
-
-const getThreatsList = async (name = '', lowPrice:number, highPrice:number): Promise<ThreatsList> =>{
-    return fetch(`http://localhost:3000/api/threats?query=${name}&lowPrice=${lowPrice}&highPrice=${highPrice}`)
-        .then((response) => response.json())
-        .catch(()=> ({ draftId:0, threats: mockThreats }))
-}
-
+import {api} from '../../api/index'
+import {setLowPrice, setHighPrice, setSearchValue} from '../../store/filterSlice'
+import {useDispatch} from 'react-redux'
+import {useThreatsFilter} from '../../hooks/useThreatsList'
 
 const Threats: FC = () => { 
-    const [threats, setThreats] = useState<Threat[]>([])
+    const dispatch = useDispatch();
+    const [threats, setThreats] = useState<Threat[]>([]);
+    const [loading, setLoading] = useState(false)
+    const { lowPrice, highPrice, searchValue} = useThreatsFilter();
 
     const handleSearch = async () =>{
         setLoading(true)
-        const { draftId, threats } = await getThreatsList(searchValue, lowPrice, highPrice)
-        console.log(draftId)
+        var draftId, threats;
+
+        const response = await api.api.threatsList({query: searchValue, lowPrice, highPrice})
+        if (response.status !== 200) {
+            draftId = 0
+            threats= mockThreats 
+        }
+        draftId = response.data.draftId
+        threats = response.data.threats
+      
         setThreats(threats)
         setLoading(false) 
     }
-
-    const [searchValue, setSearchValue] = useState('')
-    const [lowPrice, setLowPrice] = useState(0)
-    const [highPrice, setHignPrice] = useState(100000)
-    const [loading, setLoading] = useState(false)
 
     useEffect( ()=> {
         handleSearch();
@@ -39,17 +41,16 @@ const Threats: FC = () => {
 
 
     const setFilter = (minVal:number, maxVal:number) => {
-        setHignPrice(maxVal);
-         setLowPrice(minVal);
+        dispatch(setLowPrice(minVal));
+        dispatch(setHighPrice(maxVal))
     }
 
     return (
     <div>
-        <Navbar isAuthorized={false} />
         <div style={{marginLeft: "10%", marginTop: "20px"}}>
         <Breadcrumbs pages={[]} />
-        </div>
-   <div className={`container ${loading && 'containerLoading'}`}>
+    </div>
+    <div className={`container ${loading && 'containerLoading'}`}>
             {loading && <div className="loadingBg"><Spinner animation="border"/></div>}
     <div className="site-body">
     <div className='filter'>
@@ -58,7 +59,7 @@ const Threats: FC = () => {
     <div className="cards-with-search">
     <InputField
             value={searchValue}
-            setValue={(value) => setSearchValue(value)}
+            setValue={(value) => dispatch(setSearchValue(value))}
         />
         {!threats.length && <div>
         <h1>К сожалению, по вашему запросу ничего не найдено</h1>
@@ -74,7 +75,7 @@ const Threats: FC = () => {
                         </Card.Body>
                         <Card.Img className="card__image" src={item.image} onError={({ currentTarget }) => {
                             currentTarget.onerror = null; // prevents looping
-                            currentTarget.src="../../../dist/default.jpeg";
+                            currentTarget.src="./public/default.jpeg";
                         }}></Card.Img>
                     </Card>
                 </a>

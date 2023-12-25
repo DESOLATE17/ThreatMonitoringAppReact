@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react'
 import {Card } from 'react-bootstrap'
 import { Threat, mockThreats } from '../../models/Threats'
 import { useParams } from 'react-router-dom'
-import Navbar from '../../components/Navbar/Navbar'
 import './ThreatPage.css'
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs'
 
@@ -30,7 +29,6 @@ const ThreatPage: FC = () => {
 
     return (
         <div>
-        <Navbar isAuthorized={false} />
         <div style={{marginLeft: "10%", marginTop: "20px"}}>
         <Breadcrumbs pages={[{link: `/threats/${params.threatId}`, title: `${card.name}`}]}/>
         </div>

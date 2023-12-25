@@ -3,10 +3,13 @@
 }
 
 .navbar_text {
-    font-size: 1.25em;
+    text-decoration: "None";
+    font-size: 1.1em;
+    color: white;
 }
 
 .navbar_title {
     color: #00A88E;
     font-size: 1.5em;
+    text-decoration: "None";
 }
