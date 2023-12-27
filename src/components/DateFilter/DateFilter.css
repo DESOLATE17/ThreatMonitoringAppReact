@@ -1,0 +1,22 @@
+#filter-date {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+
+.react-datepicker__input-container input {
+    margin: 0px 1px;
+    height: 36px;
+    background-color: rgb(46, 44, 44);
+    padding: 3px 10px;
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    font-size: 1em;  
+}
+
+.react-datepicker__input-container {
+    /* height: "30%"; */
+}

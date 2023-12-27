@@ -5,6 +5,7 @@ import ThreatPage from '../pages/threat/ThreatPage'
 import LoginPage from '../pages/login/LoginPage'
 import RegisterPage from '../pages/register/RegisterPage'
 import Navbar from '../components/Navbar/Navbar'
+import MyRequestsPage from '../pages/myRequests/MyRequestsPage'
 
 
 const AppRouter: FC = () => {
@@ -38,6 +39,10 @@ const AppRouter: FC = () => {
                     {
                         path: '/register',
                         element: <RegisterPage />
+                    },
+                    {
+                        path: '/requests',
+                        element: <MyRequestsPage/>
                     }
                 ],
             },

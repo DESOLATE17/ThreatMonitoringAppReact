@@ -5,18 +5,20 @@ import './ThreatsPage.css'
 import '../../components/ThreatCard/ThreatCard.css'
 import { Threat, mockThreats } from '../../models/Threats'
 import {Card} from 'react-bootstrap'
-import Navbar from '../../components/Navbar/Navbar'
 import { Filter } from '../../components/Filter/Filter'
 import  Breadcrumbs  from '../../components/Breadcrumbs/Breadcrumbs'
 import {api} from '../../api/index'
 import {setLowPrice, setHighPrice, setSearchValue} from '../../store/filterSlice'
 import {useDispatch} from 'react-redux'
 import {useThreatsFilter} from '../../hooks/useThreatsList'
+import { useNavigate } from 'react-router-dom'
 
 const Threats: FC = () => { 
     const dispatch = useDispatch();
     const [threats, setThreats] = useState<Threat[]>([]);
+    const [draftId, setDraftId] = useState(0)
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate();
     const { lowPrice, highPrice, searchValue} = useThreatsFilter();
 
     const handleSearch = async () =>{
@@ -32,6 +34,7 @@ const Threats: FC = () => {
         threats = response.data.threats
       
         setThreats(threats)
+        setDraftId(draftId)
         setLoading(false) 
     }
 
@@ -45,6 +48,10 @@ const Threats: FC = () => {
         dispatch(setHighPrice(maxVal))
     }
 
+    const handleClick = async () => {
+        navigate(`/threats/${draftId}`)
+    }
+
     return (
     <div>
         <div style={{marginLeft: "10%", marginTop: "20px"}}>
@@ -54,6 +61,12 @@ const Threats: FC = () => {
             {loading && <div className="loadingBg"><Spinner animation="border"/></div>}
     <div className="site-body">
     <div className='filter'>
+    <button style={{
+                    width: "200px",
+                    backgroundColor: "rgb(46, 44, 44, 0.6)",
+                    fontSize: "1.25em"
+                }}
+                    className='search-button cart-button' onClick={handleClick} disabled={draftId === 0}>К корзине</button>
         <Filter min={1000}  max={100000} setFilter={setFilter}/>
     </div>
     <div className="cards-with-search">

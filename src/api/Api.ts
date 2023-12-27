@@ -61,7 +61,6 @@ export interface ModelsUserLogin {
 export interface ModelsUserSignUp {
   /** @maxLength 64 */
   login: string;
-  name?: string;
   /**
    * @minLength 8
    * @maxLength 64
@@ -114,8 +113,8 @@ export class HttpClient<SecurityDataType = unknown> {
   private format?: ResponseType;
 
   constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost:3000", withCredentials: true });
-    this.secure = false;
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost:8080", withCredentials : true });
+    this.secure = secure;
     this.format = format;
     this.securityWorker = securityWorker;
   }
@@ -244,6 +243,51 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description Retrieves a list of monitoring requests based on the provided parameters
+     *
+     * @tags MonitoringRequests
+     * @name MonitoringRequestsList
+     * @summary Get list of monitoring requests
+     * @request GET:/api/monitoring-requests
+     */
+    monitoringRequestsList: (
+      query?: {
+        /** Monitoring request status */
+        status?: string;
+        /** Start date in the format '2006-01-02T15:04:05Z' */
+        start_date?: string;
+        /** End date in the format '2006-01-02T15:04:05Z' */
+        end_date?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ModelsMonitoringRequest[], any>({
+        path: `/api/monitoring-requests`,
+        method: "GET",
+        query: query,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a monitoring request with the given ID
+     *
+     * @tags MonitoringRequests
+     * @name MonitoringRequestsDetail
+     * @summary Get monitoring request by ID
+     * @request GET:/api/monitoring-requests/{id}
+     */
+    monitoringRequestsDetail: (id: number, params: RequestParams = {}) =>
+      this.request<Record<string, any>, any>({
+        path: `/api/monitoring-requests/${id}`,
+        method: "GET",
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Authenticates a user and generates an access token
      *
      * @tags Authentication
@@ -254,6 +298,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     signInCreate: (user: ModelsUserLogin, params: RequestParams = {}) =>
       this.request<Record<string, any>, any>({
         path: `/api/signIn`,
+        method: "POST",
+        body: user,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates a new user account
+     *
+     * @tags Authentication
+     * @name SignUpCreate
+     * @summary Sign up a new user
+     * @request POST:/api/signUp
+     */
+    signUpCreate: (user: ModelsUserSignUp, params: RequestParams = {}) =>
+      this.request<Record<string, any>, any>({
+        path: `/api/signUp`,
         method: "POST",
         body: user,
         type: ContentType.Json,
@@ -389,6 +451,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * @description Adds a threat to a monitoring request
+     *
+     * @tags Threats
+     * @name ThreatsRequestCreate
+     * @summary Add threat to request
+     * @request POST:/api/threats/request/{threatId}
+     */
+    threatsRequestCreate: (threatId: number, params: RequestParams = {}) =>
+      this.request<Record<string, any>, any>({
+        path: `/api/threats/request/${threatId}`,
+        method: "POST",
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
   };
   monitoringRequestThreats = {
     /**
@@ -427,51 +506,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Retrieves a list of monitoring requests based on the provided parameters
-     *
-     * @tags MonitoringRequests
-     * @name MonitoringRequestsList
-     * @summary Get list of monitoring requests
-     * @request GET:/monitoring-requests
-     */
-    monitoringRequestsList: (
-      query?: {
-        /** Monitoring request status */
-        status?: string;
-        /** Start date in the format '2006-01-02T15:04:05Z' */
-        start_date?: string;
-        /** End date in the format '2006-01-02T15:04:05Z' */
-        end_date?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<ModelsMonitoringRequest[], any>({
-        path: `/monitoring-requests`,
-        method: "GET",
-        query: query,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Retrieves a monitoring request with the given ID
-     *
-     * @tags MonitoringRequests
-     * @name MonitoringRequestsDetail
-     * @summary Get monitoring request by ID
-     * @request GET:/monitoring-requests/{id}
-     */
-    monitoringRequestsDetail: (id: number, params: RequestParams = {}) =>
-      this.request<Record<string, any>, any>({
-        path: `/monitoring-requests/${id}`,
-        method: "GET",
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description Updates the status of a monitoring request with the given ID on "accepted"/"closed"/"canceled"
      *
      * @tags MonitoringRequests
@@ -502,43 +536,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/monitoring-requests/client`,
         method: "PUT",
         body: newStatus,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-  };
-  signUp = {
-    /**
-     * @description Creates a new user account
-     *
-     * @tags Authentication
-     * @name SignUpCreate
-     * @summary Sign up a new user
-     * @request POST:/signUp
-     */
-    signUpCreate: (user: ModelsUserSignUp, params: RequestParams = {}) =>
-      this.request<Record<string, any>, any>({
-        path: `/signUp`,
-        method: "POST",
-        body: user,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-  };
-  threats = {
-    /**
-     * @description Adds a threat to a monitoring request
-     *
-     * @tags Threats
-     * @name RequestCreate
-     * @summary Add threat to request
-     * @request POST:/threats/request/{threatId}
-     */
-    requestCreate: (threatId: number, params: RequestParams = {}) =>
-      this.request<Record<string, any>, any>({
-        path: `/threats/request/${threatId}`,
-        method: "POST",
         type: ContentType.Json,
         format: "json",
         ...params,

@@ -1,7 +1,6 @@
 import { FC } from "react"
 import { useNavigate } from "react-router-dom"
-import { useAuth } from "../../hooks/useAuth"
-
+import {api} from '../../api/index'
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs"
 
 import { Container, Row, Col } from "react-bootstrap"
@@ -9,16 +8,16 @@ import "./RegisterPage.css"
 
 
 const RegisterPage: FC = () => {
-    const { register } = useAuth()
     const navigate = useNavigate()
 
     const handleRegister = async (e: any) => {
         e.preventDefault()
-        const formData = new FormData(e.target as HTMLFormElement)
-        const response = await register(formData)
-        if (response.status == 200) {
+        const response = await api.api.signUpCreate({login: e.target.login.value, password: e.target.password.value})
+
+        if (response.status == 201) {
             navigate("/login")
         }
+        return false        
     }
 
     return (
@@ -38,7 +37,7 @@ const RegisterPage: FC = () => {
                                 <h3>Логин пользователя</h3>
                             </Col>
                             <Col className="right-col">
-                                <input type="text" className="input-form" name="username" placeholder="Введите логин пользователя" required />
+                                <input type="text" className="input-form" name="login" placeholder="Введите логин пользователя" required />
                             </Col>
                         </Row>
                         <Row>

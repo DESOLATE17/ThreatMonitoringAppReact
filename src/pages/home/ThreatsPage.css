@@ -28,6 +28,10 @@
     transform: scale(1.02);
 }
 
+.card1:hover {
+    transform: none;
+}
+
 a {
     text-decoration: none;
 }
@@ -55,6 +59,10 @@ a {
 }
 
 .card:hover .card__name {
+    color: #00A88E;
+}
+
+.cart-button:hover {
     color: #00A88E;
 }
 
