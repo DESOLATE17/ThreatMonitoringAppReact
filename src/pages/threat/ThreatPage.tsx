@@ -5,23 +5,17 @@ import { useParams } from 'react-router-dom'
 import './ThreatPage.css'
 import {api} from "../../api/index"
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs'
+import { ModelsThreat } from '../../api/Api'
 
 const ThreatPage: FC = () => {
     const params = useParams();
+    const [card, setCard] = useState<ModelsThreat>(mockThreats[0]);
 
-    const [card, setCard] = useState<Threat>(mockThreats[0]);
-
-    const getThreatById = async (id: string): Promise<Threat> => {
-        return fetch(`http://localhost:3000/api/threats/${id}`)
-            .then((response) => response.json())
-            .catch(() => (+id < mockThreats.length ? mockThreats[+id] : mockThreats[0]))
-    }
-
-    const fetchThreat = async () => {
-        var threatId: string = params.threatId ? params.threatId : "1"
-        const threat = await getThreatById(threatId);
-        setCard(threat);
-        console.log(threat.description)
+    const getThreatById = async () => {
+        const response = await api.api.threatsDetail(params.threatId?+params.threatId:1)
+        if (response.status == 200) {
+            setCard(response.data)
+        }
     }
 
     const handleClick = async () => {
@@ -30,7 +24,7 @@ const ThreatPage: FC = () => {
     }
 
     useEffect(() => {
-        fetchThreat();
+        getThreatById();
     }, [])
 
     return (

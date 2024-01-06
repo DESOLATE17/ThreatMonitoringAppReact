@@ -10,6 +10,7 @@
  */
 
 export interface ModelsMonitoringRequest {
+  admin?: string;
   adminId?: number;
   creationDate?: string;
   creator?: string;
@@ -113,7 +114,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private format?: ResponseType;
 
   constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost:8080", withCredentials : true });
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost:3001", withCredentials : true });
     this.secure = secure;
     this.format = format;
     this.securityWorker = securityWorker;
@@ -202,7 +203,7 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title ThreatMonitoringApp
  * @version 1.0
- * @baseUrl http://localhost:8080
+ * @baseUrl http://localhost:3001
  * @contact
  *
  * App for serving threats monitoring requests
@@ -239,6 +240,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/logout`,
         method: "POST",
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Deletes a threat from a request based on the user ID and threat ID
+     *
+     * @tags MonitoringRequests
+     * @name MonitoringRequestThreatsThreatsDelete
+     * @summary Delete threat from request
+     * @request DELETE:/api/monitoring-request-threats/threats/{threatId}
+     */
+    monitoringRequestThreatsThreatsDelete: (threatId: number, params: RequestParams = {}) =>
+      this.request<Record<string, any>, any>({
+        path: `/api/monitoring-request-threats/threats/${threatId}`,
+        method: "DELETE",
+        type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -387,17 +405,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Deletes a threat with the given ID
+     * @description Adds a threat to a monitoring request
      *
      * @tags Threats
-     * @name ThreatsDelete
-     * @summary Delete threat by ID
-     * @request DELETE:/api/threats/{id}
+     * @name ThreatsRequestCreate
+     * @summary Add threat to request
+     * @request POST:/api/threats/request/{threatId}
      */
-    threatsDelete: (id: number, params: RequestParams = {}) =>
+    threatsRequestCreate: (threatId: number, params: RequestParams = {}) =>
       this.request<Record<string, any>, any>({
-        path: `/api/threats/${id}`,
-        method: "DELETE",
+        path: `/api/threats/request/${threatId}`,
+        method: "POST",
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -453,34 +471,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Adds a threat to a monitoring request
+     * @description Deletes a threat with the given ID
      *
      * @tags Threats
-     * @name ThreatsRequestCreate
-     * @summary Add threat to request
-     * @request POST:/api/threats/request/{threatId}
-     */
-    threatsRequestCreate: (threatId: number, params: RequestParams = {}) =>
-      this.request<Record<string, any>, any>({
-        path: `/api/threats/request/${threatId}`,
-        method: "POST",
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-  };
-  monitoringRequestThreats = {
-    /**
-     * @description Deletes a threat from a request based on the user ID and threat ID
-     *
-     * @tags MonitoringRequests
      * @name ThreatsDelete
-     * @summary Delete threat from request
-     * @request DELETE:/monitoring-request-threats/threats/{threatId}
+     * @summary Delete threat by ID
+     * @request DELETE:/api/threats/{id}
      */
-    threatsDelete: (threatId: number, params: RequestParams = {}) =>
+    threatsDelete: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, any>, any>({
-        path: `/monitoring-request-threats/threats/${threatId}`,
+        path: `/api/threats/${id}`,
         method: "DELETE",
         type: ContentType.Json,
         format: "json",

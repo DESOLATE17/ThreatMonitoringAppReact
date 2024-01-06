@@ -1,0 +1,41 @@
+/*.cart-card {
+    width: 460px;
+    flex-direction: column;
+    height: 400px;
+}
+
+.cart-card__image {
+    flex-basis: 50%;
+    height: 100%;
+    overflow: hidden;
+}*/
+
+.cart-card {
+  width: 400px; /* Фиксированная ширина карточки */
+  height: 440px; /* Фиксированная высота карточки */
+  flex-direction: column;
+}
+
+.cart-card__image {
+  width: 100%; /* Растягивание изображения на 100% ширины родительского элемента */
+  height: 200px; /* Фиксированная высота изображения */
+  object-fit: cover; /* Обрезание изображения для заполнения всей доступной области */
+}
+
+.cart-card__content {
+  padding: 10px; /* Отступ внутри контента карточки */
+  width: 100%;
+}
+
+.cart-card__name {
+  font-size: 1.5em;
+  height: 2em;
+  justify-content: center;
+  display: flex;
+}
+
+.cart-card_description {
+  font-size: 1.25em; /* Размер шрифта описания */
+  justify-content: center;
+  display: flex;
+}

@@ -21,7 +21,7 @@ export type Filter = {
 
 const MyRequestsPage: FC = () => {
     const [ loading, setLoading ] = useState<boolean> (true)
-    const { is_authenticated } = useAuth()
+    const { is_authenticated, resetUser } = useAuth()
     const [ response, setResponse ] = useState<ModelsMonitoringRequest[]> ()
 
     const [filter, setFilter] = useState<Filter> ({
@@ -58,6 +58,10 @@ const MyRequestsPage: FC = () => {
         const response = await api.api.monitoringRequestsList({status: getFilterStatusParams(), start_date: startDate?.toISOString().replace(/T/, ' ').replace(/\..+/, ''), end_date: endDate?.toISOString().replace(/T/, ' ').replace(/\..+/, '')})
         if (response.status == 200) {
             setResponse(response.data)
+        } 
+
+        if (response.status == 403) {
+            resetUser()
         }
     }
 
@@ -84,22 +88,6 @@ const MyRequestsPage: FC = () => {
                 <h1 className="cart-help-text">Вы не совершили ни одного заказа</h1>
             </Container>
         )
-    }
-
-    const getTextStatus = (status: string) => {
-        if (status === 'formated') {
-            return 'сформирован'
-        } 
-        if (status === 'accepted') {
-            return 'принят'
-        } 
-        if (status == 'canceled') {
-            return 'отклонён'
-        }
-        if (status == 'closed') {
-            return 'завершён'
-        }
-        return ''
     }
 
     return (

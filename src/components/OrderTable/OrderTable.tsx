@@ -34,7 +34,7 @@ const OrderTable: FC<Props> = ({ orders }) => {
                     <Col className="order-table-col" style={{ width: "25%" }}><h2>{order.requestId}</h2></Col> 
                     <Col className="order-table-col" style={{ width: "25%" }}><h2>{order.formationDate}</h2></Col>
                     <Col className="order-table-col" style={{ width: "25%" }}><h2>{getStatus(order.status)}</h2></Col>
-                    <Col className="order-table-col" style={{ width: "25%" }}><a href={`/orders/${order.requestId}`}><h2>посмотреть</h2></a></Col>
+                    <Col className="order-table-col" style={{ width: "25%" }}><a href={`/requests/${order.requestId}`}><h2>посмотреть</h2></a></Col>
                 </Row>
             ))}
         </Container>

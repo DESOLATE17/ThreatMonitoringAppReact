@@ -6,6 +6,7 @@ import LoginPage from '../pages/login/LoginPage'
 import RegisterPage from '../pages/register/RegisterPage'
 import Navbar from '../components/Navbar/Navbar'
 import MyRequestsPage from '../pages/myRequests/MyRequestsPage'
+import RequestPage from '../pages/request/RequestPage'
 
 
 const AppRouter: FC = () => {
@@ -43,6 +44,10 @@ const AppRouter: FC = () => {
                     {
                         path: '/requests',
                         element: <MyRequestsPage/>
+                    },
+                    {
+                        path: '/requests/:requestId',
+                        element: <RequestPage />
                     }
                 ],
             },

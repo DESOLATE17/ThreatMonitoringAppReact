@@ -39,7 +39,7 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
         >
           Фильтр по статусу заявки
         </div>
-        <form style={{display: "flex", flexDirection: "row", marginLeft: "200px",}}>
+        <form style={{display: "flex", flexDirection: "row", marginLeft: "250px",}}>
           <div className="radio">
             <label>
               <input
@@ -62,18 +62,6 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
                 onChange={handleChange}
               />
               отклонена
-            </label>
-          </div>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                value="closed"
-                name="Closed"
-
-                onChange={handleChange}
-              />
-              завершена
             </label>
           </div>
           <div className="radio">
