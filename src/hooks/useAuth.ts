@@ -23,7 +23,7 @@ export function useAuth() {
                 is_authenticated: true,
                 is_moderator: response.data["isAdmin"],
                 user_id: response.data["userId"],
-                login: response.data["login"],
+                user_login: response.data["login"],
             }
 
             setUser(data)

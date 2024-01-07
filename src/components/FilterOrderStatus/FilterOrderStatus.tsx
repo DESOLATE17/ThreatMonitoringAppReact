@@ -14,10 +14,12 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
   const [filter, setFilter] = useState<Filter>(state);
 
   const handleChange = (event: any) => {
-    const { name, checked } = event.target;
-    var f : Filter = {Accepted: false, Canceled: false, Closed: false, Formated : false}
+    const { value, checked } = event.target;
+    var f : Filter = {Accepted: false, Canceled: false, Formated : false}
+    if (value !== "All") {
     // @ts-ignore
-    f[name as keyof Filter] = checked
+    f[value as keyof Filter] = checked
+    } 
     console.log(f)
     setFilter(f);
   };
@@ -44,8 +46,9 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
             <label>
               <input
                 type="radio"
-                value="accepted"
-                name="Accepted"
+                value="Accepted"
+                name="name"
+                defaultChecked={state.Accepted}
             
                 onChange={handleChange}
               />
@@ -56,9 +59,10 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
             <label>
               <input
                 type="radio"
-                value="canceled"
-                name="Canceled"
+                value="Canceled"
+                name="name"
 
+                defaultChecked={state.Canceled}
                 onChange={handleChange}
               />
               отклонена
@@ -68,12 +72,26 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
             <label>
               <input
                 type="radio"
-                value="formated"
-                name="Formated"
+                value="Formated"
+                name="name"
+                defaultChecked={state.Formated}
 
                 onChange={handleChange}
               />
               сформирована
+            </label>
+          </div>
+          <div className="radio">
+            <label>
+              <input
+                type="radio"
+                value="All"
+                name="name"
+                defaultChecked={!state.Accepted && !state.Canceled && !state.Formated}
+                
+                onChange={handleChange}
+              />
+              все
             </label>
           </div>
         </form>

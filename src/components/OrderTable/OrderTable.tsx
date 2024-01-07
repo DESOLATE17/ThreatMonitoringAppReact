@@ -20,6 +20,11 @@ const getStatus = (status: string | undefined) => {
     return "сформирована"
 }
 
+const getDate = (date: string) => {
+    const dateObj = new Date(date);
+    return `${dateObj.toLocaleDateString('ru')} ${dateObj.toLocaleTimeString('ru')}`;
+}
+
 const OrderTable: FC<Props> = ({ orders }) => {
     return (
         <Container id="order-table" style={{ marginTop: "20px", marginBottom: "50px", width: "100%", position: "relative"}}>
@@ -32,7 +37,7 @@ const OrderTable: FC<Props> = ({ orders }) => {
             {orders?.map((order) => (
                 <Row className="order-table-row" key={order.requestId} style={{ display: "flex", padding: "15px", backgroundColor: "#212121", borderTop: "2px groove black" }}>
                     <Col className="order-table-col" style={{ width: "25%" }}><h2>{order.requestId}</h2></Col> 
-                    <Col className="order-table-col" style={{ width: "25%" }}><h2>{order.formationDate}</h2></Col>
+                    <Col className="order-table-col" style={{ width: "25%" }}><h2>{getDate(order.formationDate? order.formationDate : "")}</h2></Col>
                     <Col className="order-table-col" style={{ width: "25%" }}><h2>{getStatus(order.status)}</h2></Col>
                     <Col className="order-table-col" style={{ width: "25%" }}><a href={`/requests/${order.requestId}`}><h2>посмотреть</h2></a></Col>
                 </Row>

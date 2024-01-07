@@ -114,7 +114,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private format?: ResponseType;
 
   constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost:3001", withCredentials : true });
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost:3001", withCredentials : true});
     this.secure = secure;
     this.format = format;
     this.securityWorker = securityWorker;
@@ -261,6 +261,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description Deletes a monitoring request for the given user ID
+     *
+     * @tags MonitoringRequests
+     * @name MonitoringRequestsDelete
+     * @summary Delete monitoring request by user ID
+     * @request DELETE:/api/monitoring-requests
+     */
+    monitoringRequestsDelete: (params: RequestParams = {}) =>
+      this.request<Record<string, any>, any>({
+        path: `/api/monitoring-requests`,
+        method: "DELETE",
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Retrieves a list of monitoring requests based on the provided parameters
      *
      * @tags MonitoringRequests
@@ -300,6 +317,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<Record<string, any>, any>({
         path: `/api/monitoring-requests/${id}`,
         method: "GET",
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates the status of a monitoring request by client on formated
+     *
+     * @tags MonitoringRequests
+     * @name MonitoringRequestsClientUpdate
+     * @summary Update monitoring request status by client
+     * @request PUT:/api/monitoring-requests/client
+     */
+    monitoringRequestsClientUpdate: (newStatus: ModelsNewStatus, params: RequestParams = {}) =>
+      this.request<Record<string, string>, any>({
+        path: `/api/monitoring-requests/client`,
+        method: "PUT",
+        body: newStatus,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -405,17 +440,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Adds a threat to a monitoring request
+     * @description Deletes a threat with the given ID
      *
      * @tags Threats
-     * @name ThreatsRequestCreate
-     * @summary Add threat to request
-     * @request POST:/api/threats/request/{threatId}
+     * @name ThreatsDelete
+     * @summary Delete threat by ID
+     * @request DELETE:/api/threats/{id}
      */
-    threatsRequestCreate: (threatId: number, params: RequestParams = {}) =>
+    threatsDelete: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, any>, any>({
-        path: `/api/threats/request/${threatId}`,
-        method: "POST",
+        path: `/api/threats/${id}`,
+        method: "DELETE",
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -471,40 +506,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Deletes a threat with the given ID
+     * @description Adds a threat to a monitoring request
      *
      * @tags Threats
-     * @name ThreatsDelete
-     * @summary Delete threat by ID
-     * @request DELETE:/api/threats/{id}
+     * @name ThreatsRequestCreate
+     * @summary Add threat to request
+     * @request POST:/api/threats/request/{threatId}
      */
-    threatsDelete: (id: number, params: RequestParams = {}) =>
+    threatsRequestCreate: (threatId: number, params: RequestParams = {}) =>
       this.request<Record<string, any>, any>({
-        path: `/api/threats/${id}`,
-        method: "DELETE",
+        path: `/api/threats/request/${threatId}`,
+        method: "POST",
         type: ContentType.Json,
         format: "json",
         ...params,
       }),
   };
   monitoringRequests = {
-    /**
-     * @description Deletes a monitoring request for the given user ID
-     *
-     * @tags MonitoringRequests
-     * @name MonitoringRequestsDelete
-     * @summary Delete monitoring request by user ID
-     * @request DELETE:/monitoring-requests
-     */
-    monitoringRequestsDelete: (userId: number, params: RequestParams = {}) =>
-      this.request<Record<string, any>, any>({
-        path: `/monitoring-requests`,
-        method: "DELETE",
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
     /**
      * @description Updates the status of a monitoring request with the given ID on "accepted"/"closed"/"canceled"
      *
@@ -518,24 +536,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/monitoring-requests/admin/${requestId}`,
         method: "PUT",
         body: newRequestStatus,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Updates the status of a monitoring request by client on formated
-     *
-     * @tags MonitoringRequests
-     * @name ClientUpdate
-     * @summary Update monitoring request status by client
-     * @request PUT:/monitoring-requests/client
-     */
-    clientUpdate: (newStatus: ModelsNewStatus, params: RequestParams = {}) =>
-      this.request<Record<string, string>, any>({
-        path: `/monitoring-requests/client`,
-        method: "PUT",
-        body: newStatus,
         type: ContentType.Json,
         format: "json",
         ...params,

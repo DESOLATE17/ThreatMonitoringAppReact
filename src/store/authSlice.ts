@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     user_id: -1,
-    login: "",
+    user_login: "",
     is_authenticated: false,
     is_moderator: false
 }
@@ -15,13 +15,13 @@ const authSlice = createSlice({
             state.is_authenticated = action.payload.is_authenticated
             state.is_moderator = action.payload.is_moderator
             state.user_id = action.payload.pk
-            state.login = action.payload.login
+            state.user_login = action.payload.user_login
         },
         cleanUser: (state) => {
             state.is_authenticated = false
             state.is_moderator = false
             state.user_id = -1
-            state.login = ""
+            state.user_login = ""
         }
     }
 })

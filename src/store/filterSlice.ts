@@ -1,28 +1,41 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const filterSlice = createSlice({
-    name: 'filter',
+    name: "filter",
     initialState: {
         lowPrice: 0,
         highPrice: 1000000,
-        searchValue: '',
+        searchValue: "",
+        accepted: false,
+        formated: false,
+        canceled: false,
+        startDate: new Date("2019-01-16"),
+        endDate: new Date(),
     },
     reducers: {
         setLowPrice: (state, action) => {
-            console.log(state)
             state.lowPrice = action.payload;
-            console.log(state.lowPrice)
         },
         setHighPrice: (state, { payload }) => {
             state.highPrice = payload;
         },
         setSearchValue: (state, { payload }) => {
-            console.log("here")
             state.searchValue = payload;
-            console.log(state.searchValue)
+        },
+        setStatusFilter: (state, { payload }) => {
+            state.accepted = payload.Accepted;
+            state.formated = payload.Formated;
+            state.canceled = payload.Canceled;
+        },
+        setStartDate: (state, { payload }) => {
+            state.startDate = new Date(payload);
+        },
+        setEndDate: (state, { payload }) => {
+            state.endDate = new Date(payload);
         },
     },
 });
 
 export default filterSlice.reducer;
-export const { setLowPrice, setHighPrice, setSearchValue } = filterSlice.actions;
+export const { setLowPrice, setHighPrice, setSearchValue, setStatusFilter, setStartDate, setEndDate } =
+    filterSlice.actions;

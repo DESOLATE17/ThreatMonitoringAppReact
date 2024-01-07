@@ -5,10 +5,10 @@ import './DateFilter.css'
 import { Container } from "react-bootstrap";
 
 interface Props {
-    startDate: Date | undefined,
-    setStartDate: Dispatch<Date>,
-    endDate: Date | undefined,
-    setEndDate: Dispatch<Date>,
+    startDate: Date,
+    setStartDate: (date: Date)=>void,
+    endDate: Date,
+    setEndDate: (date: Date)=>void,
     send: () => any,
 }
 

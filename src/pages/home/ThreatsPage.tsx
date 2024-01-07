@@ -16,6 +16,7 @@ import {
 import { useDispatch } from "react-redux";
 import { useThreatsFilter } from "../../hooks/useThreatsList";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const Threats: FC = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const Threats: FC = () => {
   const [draftId, setDraftId] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { is_authenticated, resetUser} = useAuth();
   const { lowPrice, highPrice, searchValue } = useThreatsFilter();
 
   const handleSearch = async () => {
@@ -78,7 +80,7 @@ const Threats: FC = () => {
                 backgroundColor: "rgb(46, 44, 44, 0.6)",
                 fontSize: "1.25em",
               }}
-              className="search-button cart-button"
+              className={`search-button ${draftId == 0? "": "cart-button"}`}
               onClick={handleClick}
               disabled={draftId == 0}
             >
@@ -111,11 +113,17 @@ const Threats: FC = () => {
                         backgroundColor: "rgb(46, 44, 44, 0.6)",
                         fontSize: "1.25em",
                       }}
-                      className="search-button cart-button"
+                      className={`search-button ${!is_authenticated? "": "cart-button"}`}
                       onClick={async () => {
                         const response = await api.api.threatsRequestCreate(
                           item.threatId
                         );
+
+                        if (response.status === 403) {
+                          resetUser();
+                        }
+
+                        handleSearch();
                       }}
                     >
                       Добавить в корзину

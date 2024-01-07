@@ -68,10 +68,6 @@ button:disabled {
     margin-right: 12px;
 }
 
-.card:hover .card__name {
-    color: #00A88E;
-}
-
 .card__statistics {
     margin-top: 20px;
     opacity: 1;
@@ -114,4 +110,8 @@ button:disabled {
 
 .cards-with-search {
     flex-basis: 70%;
+}
+
+.cart-button:hover {
+    color: #00A88E;
 }

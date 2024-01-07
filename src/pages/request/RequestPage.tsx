@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from "react";
-import { Card, Container, Row } from "react-bootstrap";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../api/index";
 import "./RequestPage.css";
@@ -51,7 +51,8 @@ const RequestPage: FC = () => {
       ) : (
         <div className="site-body">
           <Container style={{ width: "100%" }}>
-            <Row>
+            <Row style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+              <Col>
               <Breadcrumbs
                 pages={[
                   { link: `/requests`, title: `Мои заявки` },
@@ -61,10 +62,48 @@ const RequestPage: FC = () => {
                   },
                 ]}
               />
+              </Col>
+              <Col>
+              { request?.status == "created" ? (<div><button
+              style={{
+                width: "200px",
+                backgroundColor: "rgb(46, 44, 44, 0.6)",
+                fontSize: "1.25em",
+              }}
+              className="search-button cart-button"
+              onClick={async () => {
+                const response =
+                  await api.api.monitoringRequestsDelete();
+                if (response.status == 200) {
+                  console.log(response.data);
+                  navigate('/threats');
+                }
+              }}
+            >
+              Удалить
+            </button><button
+              style={{
+                width: "200px",
+                backgroundColor: "rgb(46, 44, 44, 0.6)",
+                fontSize: "1.25em",
+                marginLeft: "10px"
+              }}
+              className="search-button cart-button"
+              onClick={async () => {
+                const response =
+                  await api.api.monitoringRequestsClientUpdate({status: 'formated'});
+                if (response.status == 200) {
+                  console.log(response.data);
+                  navigate('/requests');
+                }
+              }}
+            >
+              Отправить заявку
+            </button></div>) : <div></div>}
+              </Col>
             </Row>
             <Row>
               <div style={{ marginTop: "32px",  display: "flex" , flexWrap: "wrap" }}>
-                {}
                 {threats.map((item) => (
                   <Card
                     className="cart-card"

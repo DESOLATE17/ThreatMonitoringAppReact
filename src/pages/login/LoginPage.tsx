@@ -23,8 +23,10 @@ const LoginPage: FC = () => {
                 is_moderator: response.data["is_moderator"],
                 user_id: response.data["pk"],
                 username: response.data["username"],
+                user_login: e.target.login.value,
             }
 
+            console.log(data)
             setUser(data)
             navigate("/threats")
         }
