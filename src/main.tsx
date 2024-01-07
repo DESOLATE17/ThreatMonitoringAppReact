@@ -14,6 +14,7 @@ import MyRequestsPage from "./pages/myRequests/MyRequestsPage.tsx";
 import RegisterPage from "./pages/register/RegisterPage.tsx";
 import RequestPage from "./pages/request/RequestPage.tsx";
 import ThreatPage from "./pages/threat/ThreatPage.tsx";
+import ThreatsTablePage from "./pages/ThreatsTablePage/ThreatsTablePage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 <Route path="register/" element={<RegisterPage />} />
                 <Route path="requests/" element={<MyRequestsPage />} />
                 <Route path="requests/:requestId" element={<RequestPage />} />
+                <Route path="threats/table" element={<ThreatsTablePage />} />
               </Routes>
             </Row>
           </Container>

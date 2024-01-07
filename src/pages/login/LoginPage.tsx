@@ -20,9 +20,8 @@ const LoginPage: FC = () => {
         if (response.status == 200) {
             const data = {
                 is_authenticated: true,
-                is_moderator: response.data["is_moderator"],
-                user_id: response.data["pk"],
-                username: response.data["username"],
+                is_moderator: response.data["isAdmin"],
+                user_id: response.data["userId"],
                 user_login: e.target.login.value,
             }
 

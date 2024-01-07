@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect, useState, useMemo } from "react"
 import { Col, Container, Row } from 'react-bootstrap'
 import { useAuth } from '../../hooks/useAuth';
 import { useDispatch } from "react-redux";
@@ -15,7 +15,7 @@ import {
     setEndDate,
     setStartDate,
     setStatusFilter
-} from "../../store/filterSlice";
+} from "../../store/filterRequest.ts";
 import { useRequestFilter } from "../../hooks/useRequestFilter.ts";
 
 
@@ -30,10 +30,12 @@ const MyRequestsPage: FC = () => {
     const [loading, setLoading] = useState<boolean>(true)
     const { is_authenticated, resetUser } = useAuth()
     const [response, setResponse] = useState<ModelsMonitoringRequest[]>()
-    const { filter, startDate, endDate } = useRequestFilter();
+    const { canceled, formated, accepted, startDateState, endDateState } = useRequestFilter();
+    const [filter, setFilter] = useState({ Accepted: accepted, Canceled: canceled, Formated: formated })
     const dispatch = useDispatch();
 
     const handleFilterChange = (newFilter: Filter) => {
+        setFilter(newFilter)
         dispatch(setStatusFilter(newFilter));
     };
 
@@ -45,8 +47,6 @@ const MyRequestsPage: FC = () => {
         dispatch(setEndDate(date));
     }
 
-    const [ startDate2, setStartDate2 ] = useState<Date | undefined> ()
-    const [ endDate2, setEndDate2 ] = useState<Date | undefined> ()
 
     const getFilterStatusParams = () => {
         if (filter.Canceled) {
@@ -62,7 +62,7 @@ const MyRequestsPage: FC = () => {
     }
 
     const getOrders = async () => {
-        const response = await api.api.monitoringRequestsList({ status: getFilterStatusParams(), start_date: startDate ? startDate.toISOString().replace(/T/, ' ').replace(/\..+/, ''): "", end_date: endDate? endDate.toISOString().replace(/T/, ' ').replace(/\..+/, '') : "" })
+        const response = await api.api.monitoringRequestsList({ status: getFilterStatusParams(), start_date: startDateState ? startDateState.toISOString().replace(/T/, ' ').replace(/\..+/, '') : "", end_date: endDateState ? endDateState.toISOString().replace(/T/, ' ').replace(/\..+/, '') : "" })
         if (response.status == 200) {
             setResponse(response.data)
         }
@@ -89,7 +89,7 @@ const MyRequestsPage: FC = () => {
         )
     }
 
-    if (response && !loading && response.length == 0 && !filter.Accepted && !filter.Canceled && !filter.Closed && !filter.Formated) {
+    if (response && !loading && response.length == 0 && !filter.Accepted && !filter.Canceled && !filter.Formated) {
         return (
             <Container style={{ marginLeft: "30px" }}>
                 <h1 className="cart-help-text">Вы не совершили ни одного заказа</h1>
@@ -107,9 +107,9 @@ const MyRequestsPage: FC = () => {
                     <Row style={{ display: "flex", flexDirection: "row", marginTop: "20px" }}>
                         <Col>
                             <DateFilter
-                                startDate={startDate}
+                                startDate={startDateState}
                                 setStartDate={handleStartDateChange}
-                                endDate={endDate}
+                                endDate={endDateState}
                                 setEndDate={handleEndDateChange}
                                 send={getOrders}
                             />

@@ -29,6 +29,7 @@ export interface ModelsThreat {
   count?: number;
   description?: string;
   image?: string;
+  isDeleted?: boolean;
   name?: string;
   price?: number;
   summary?: string;
@@ -114,7 +115,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private format?: ResponseType;
 
   constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost:3001", withCredentials : true});
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost:3001", withCredentials: true });
     this.secure = secure;
     this.format = format;
     this.securityWorker = securityWorker;

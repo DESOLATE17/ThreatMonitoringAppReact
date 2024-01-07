@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, ChangeEvent } from "react";
+import { FC, useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import { Filter } from "../../pages/myRequests/MyRequestsPage";
 
@@ -15,12 +15,11 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
 
   const handleChange = (event: any) => {
     const { value, checked } = event.target;
-    var f : Filter = {Accepted: false, Canceled: false, Formated : false}
+    var f: Filter = { Accepted: false, Canceled: false, Formated: false }
     if (value !== "All") {
-    // @ts-ignore
-    f[value as keyof Filter] = checked
-    } 
-    console.log(f)
+      // @ts-ignore
+      f[value as keyof Filter] = checked
+    }
     setFilter(f);
   };
 
@@ -41,7 +40,7 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
         >
           Фильтр по статусу заявки
         </div>
-        <form style={{display: "flex", flexDirection: "row", marginLeft: "250px",}}>
+        <form style={{ display: "flex", flexDirection: "row", marginLeft: "250px", }}>
           <div className="radio">
             <label>
               <input
@@ -49,7 +48,7 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
                 value="Accepted"
                 name="name"
                 defaultChecked={state.Accepted}
-            
+
                 onChange={handleChange}
               />
               принята
@@ -88,7 +87,7 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
                 value="All"
                 name="name"
                 defaultChecked={!state.Accepted && !state.Canceled && !state.Formated}
-                
+
                 onChange={handleChange}
               />
               все
