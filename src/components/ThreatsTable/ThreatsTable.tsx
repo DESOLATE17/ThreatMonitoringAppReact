@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
+import '../../../public/default.jpeg'
 import "./ThreatsTable.css"
 import ImageWrapper from '../ImageWrapper/ImageWrapper'
 
@@ -11,24 +12,23 @@ interface ThreatsTableItem {
     title: string,
     price: number,
     count: number,
-    status: string,
+    deleted: boolean,
     image: string
 }
 
 interface Props {
     products: ThreatsTableItem[]
-    deleteProduct: (id: number) => Promise<any>
 }
 
-const ThreatsTable: FC<Props> = ({ products, deleteProduct }) => {
+const ThreatsTable: FC<Props> = ({ products }) => {
     const navigate = useNavigate()
 
     const getTextStatus = (product: ThreatsTableItem) => {
-        return (product.status == 'deleted' ? 'удалён' : 'активен')
+        return (product.deleted ? 'Удалена' : 'Доступна')
     }
 
     return (
-        <Container id="product-table" style={{ marginTop: "30px", marginBottom: "50px", width: "95%", marginLeft: "1%" }}>
+        <Container id="product-table" style={{ marginTop: "30px", marginBottom: "50px", width: "100%" }}>
             <Row className="product-table-header" style={{ display: "flex", padding: "15px" }}>
                 <Col className="product-table-head" style={{ width: "20%" }}><h2>Название</h2></Col>
                 <Col className="product-table-head" style={{ width: "13%" }}><h2>Цена</h2></Col>
@@ -41,17 +41,15 @@ const ThreatsTable: FC<Props> = ({ products, deleteProduct }) => {
                 <Row className="product-table-row" key={index} style={{ display: "flex", padding: "15px", borderTop: "2px groove black" }}>
                     <Col className="product-table-col" style={{ width: "20%" }}><h2>{product.title}</h2></Col>
                     <Col className="product-table-col" style={{ width: "13%" }}><h2>{product.price} ₽</h2></Col>
-                    <Col className="product-table-col" style={{ width: "13%" }}><h2>{product.count} шт.</h2></Col>
+                    <Col className="product-table-col" style={{ width: "13%" }}><h2>{product.count} </h2></Col>
                     <Col className="product-table-col" style={{ width: "13%", display: "flex", flexDirection: "column" }}>
                         <h2>{getTextStatus(product)}</h2>
-                        {product.status == 'N' ?
-                            <button className="activate-product-button" onClick={() => deleteProduct(product.threatId)}>Вернуть</button> :
-                            <button className="delete-product-button" onClick={() => deleteProduct(product.threatId)}>Удалить</button>}
                     </Col>
-                    <Col className="product-table-col" style={{ width: "28%" }}><div><ImageWrapper className="product-table-image" src={product.image} based="/default.jpg" /></div></Col>
+                    <Col className="product-table-col" style={{ width: "28%" }}><div><ImageWrapper className="product-table-image" src={product.image} based="/default.jpeg" /></div></Col>
                     <Col className="product-table-col" style={{ width: "13%", display: "flex", flexDirection: "column" }}>
-                        <a href={`/products/${product.threatId}`}><h2>посмотреть</h2></a>
-                        <button className="update-product-button" onClick={() => navigate(`/products/${product.threatId}/update`)}>Изменить</button>
+                        {product.deleted ? <div></div> : <a href={`/threats/${product.threatId}`}><h2>Посмотреть</h2></a>}
+                        <button className="search-button cart-button update-button"
+                            onClick={() => navigate(`/threats/update/${product.threatId}`)}>Изменить</button>
                     </Col>
                 </Row>
             ))}

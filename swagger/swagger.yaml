@@ -14,6 +14,8 @@ definitions:
         type: string
       formationDate:
         type: string
+      receipt:
+        type: string
       requestId:
         type: integer
       status:
@@ -238,6 +240,38 @@ paths:
       summary: Get monitoring request by ID
       tags:
       - MonitoringRequests
+  /api/monitoring-requests/admin/{requestId}:
+    put:
+      consumes:
+      - application/json
+      description: Updates the status of a monitoring request with the given ID on
+        "accepted"/"closed"/"canceled"
+      parameters:
+      - description: Request ID
+        in: path
+        name: requestId
+        required: true
+        type: integer
+      - description: New request status
+        in: body
+        name: newRequestStatus
+        required: true
+        schema:
+          $ref: '#/definitions/models.NewStatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: Update monitoring request status by ID
+      tags:
+      - MonitoringRequests
   /api/monitoring-requests/client:
     put:
       consumes:
@@ -364,12 +398,12 @@ paths:
     post:
       consumes:
       - multipart/form-data
-      description: Add a new threat with image, name, description, count, and price
+      description: Add a new threat with image, name, description, summary, count,
+        and price
       parameters:
       - description: Threat image
         in: formData
         name: image
-        required: true
         type: file
       - description: Threat name
         in: formData
@@ -380,16 +414,20 @@ paths:
         in: formData
         name: description
         type: string
+      - description: Threat summary
+        in: formData
+        name: summary
+        type: string
       - description: Threat count
         in: formData
         name: count
         required: true
-        type: integer
+        type: string
       - description: Threat price
         in: formData
         name: price
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -525,38 +563,6 @@ paths:
       summary: Add threat to request
       tags:
       - Threats
-  /monitoring-requests/admin/{requestId}:
-    put:
-      consumes:
-      - application/json
-      description: Updates the status of a monitoring request with the given ID on
-        "accepted"/"closed"/"canceled"
-      parameters:
-      - description: Request ID
-        in: path
-        name: requestId
-        required: true
-        type: integer
-      - description: New request status
-        in: body
-        name: newRequestStatus
-        required: true
-        schema:
-          $ref: '#/definitions/models.NewStatus'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema: {}
-      summary: Update monitoring request status by ID
-      tags:
-      - MonitoringRequests
 schemes:
 - http
 swagger: "2.0"

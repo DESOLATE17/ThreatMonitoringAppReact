@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import Loader from "../../components/Loader/Loader";
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import ProductTable from "../../components/ThreatsTable/ThreatsTable";
@@ -18,15 +18,9 @@ const ThreatsTablePage: FC = () => {
 
     !is_moderator && navigate('/')
 
-    const deleteProduct = async (id: number) => {
-
-    }
-
     const getAllThreats = async () => {
         setLoading(true);
-        const response = await api.api.threatsList({
-            query: "all",
-        });
+        const response = await api.api.threatsList();
 
         setThreats(response.data.threats);;
         setLoading(false);
@@ -48,8 +42,8 @@ const ThreatsTablePage: FC = () => {
                 threatId: threat.threatId,
                 title: threat.name,
                 price: threat.price,
-                cnt: threat.count,
-                status: threat.isDeleted,
+                count: threat.count,
+                deleted: threat.isDeleted,
                 image: threat.image
             })
         })
@@ -60,13 +54,23 @@ const ThreatsTablePage: FC = () => {
         <> {loading ? <Loader /> :
             <div className="site-body">
                 <Container>
-                    <Row>
-                        <Breadcrumbs pages={[]} />
+                    <Row style={{ display: "flex", justifyContent: "space-between" }}>
+                        <Breadcrumbs pages={[{ link: `/threats/table`, title: "Таблица угроз" }]} />
+                        <button
+                            style={{
+                                width: "200px",
+                                backgroundColor: "rgb(46, 44, 44, 0.6)",
+                                fontSize: "1.25em",
+                            }}
+                            className="search-button cart-button"
+                            onClick={() => { navigate('/threats/update/0'); }}
+                        >
+                            Добавить услугу
+                        </button>
                     </Row>
                     <Row style={{ display: "flex" }}>
                         <ProductTable
                             products={getTransformedData(threats)}
-                            deleteProduct={deleteProduct}
                         />
                     </Row>
                 </Container>

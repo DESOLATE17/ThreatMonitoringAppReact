@@ -16,6 +16,7 @@ export interface ModelsMonitoringRequest {
   creator?: string;
   endingDate?: string;
   formationDate?: string;
+  receipt?: string;
   requestId?: number;
   status?: string;
   userId?: number;
@@ -324,6 +325,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description Updates the status of a monitoring request with the given ID on "accepted"/"closed"/"canceled"
+     *
+     * @tags MonitoringRequests
+     * @name MonitoringRequestsAdminUpdate
+     * @summary Update monitoring request status by ID
+     * @request PUT:/api/monitoring-requests/admin/{requestId}
+     */
+    monitoringRequestsAdminUpdate: (requestId: number, newRequestStatus: ModelsNewStatus, params: RequestParams = {}) =>
+      this.request<Record<string, any>, any>({
+        path: `/api/monitoring-requests/admin/${requestId}`,
+        method: "PUT",
+        body: newRequestStatus,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Updates the status of a monitoring request by client on formated
      *
      * @tags MonitoringRequests
@@ -406,7 +425,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Add a new threat with image, name, description, count, and price
+     * @description Add a new threat with image, name, description, summary, count, and price
      *
      * @tags Threats
      * @name ThreatsCreate
@@ -419,15 +438,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Threat image
          * @format binary
          */
-        image: File;
+        image?: File;
         /** Threat name */
         name: string;
         /** Threat description */
         description?: string;
+        /** Threat summary */
+        summary?: string;
         /** Threat count */
-        count: number;
+        count: string;
         /** Threat price */
-        price: number;
+        price: string;
       },
       params: RequestParams = {},
     ) =>
@@ -518,25 +539,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<Record<string, any>, any>({
         path: `/api/threats/request/${threatId}`,
         method: "POST",
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-  };
-  monitoringRequests = {
-    /**
-     * @description Updates the status of a monitoring request with the given ID on "accepted"/"closed"/"canceled"
-     *
-     * @tags MonitoringRequests
-     * @name AdminUpdate
-     * @summary Update monitoring request status by ID
-     * @request PUT:/monitoring-requests/admin/{requestId}
-     */
-    adminUpdate: (requestId: number, newRequestStatus: ModelsNewStatus, params: RequestParams = {}) =>
-      this.request<Record<string, any>, any>({
-        path: `/monitoring-requests/admin/${requestId}`,
-        method: "PUT",
-        body: newRequestStatus,
         type: ContentType.Json,
         format: "json",
         ...params,

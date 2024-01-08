@@ -23,10 +23,6 @@
     transition: transform 0.3s;
 
 }
-/* 
-.card:hover {
-    transform: scale(1.02);
-} */
 
 .card1:hover {
     transform: none;

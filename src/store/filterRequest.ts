@@ -8,6 +8,7 @@ const filterRequestSlice = createSlice({
         canceled: false,
         startDate: new Date("2019-01-16"),
         endDate: new Date(),
+        login: "",
     },
     reducers: {
         setStatusFilter: (state, { payload }) => {
@@ -21,9 +22,12 @@ const filterRequestSlice = createSlice({
         setEndDate: (state, { payload }) => {
             state.endDate = new Date(payload);
         },
+        setLogin: (state, { payload }) => {
+            state.login = payload.login;
+        },
     },
 });
 
 export default filterRequestSlice.reducer;
-export const { setStatusFilter, setStartDate, setEndDate } =
+export const { setStatusFilter, setStartDate, setEndDate, setLogin } =
     filterRequestSlice.actions;

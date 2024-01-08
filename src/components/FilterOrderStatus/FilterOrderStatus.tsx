@@ -33,14 +33,14 @@ const FilterOrderStatus: FC<FilterByStatusProps> = ({
         <div
           style={{
             color: "white",
-            fontSize: "24px",
+            fontSize: "16px",
             fontWeight: "500",
             marginLeft: "260px",
           }}
         >
           Фильтр по статусу заявки
         </div>
-        <form style={{ display: "flex", flexDirection: "row", marginLeft: "250px", }}>
+        <form style={{ display: "flex", flexDirection: "row", marginLeft: "250px", marginTop: "10px"}}>
           <div className="radio">
             <label>
               <input
