@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import {api} from '../../api/index'
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs"
 
@@ -55,7 +55,7 @@ const RegisterPage: FC = () => {
                             </Col>
                         </Row>
                     </form>
-                    <a href="/login" className="form-link"><h3>Вход в аккаунт</h3></a>
+                    <Link to="/login" className="form-link"><h3>Вход в аккаунт</h3></Link>
 
                 </Container>
             </Row>

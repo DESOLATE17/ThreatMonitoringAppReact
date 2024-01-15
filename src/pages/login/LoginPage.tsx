@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs"
 import Loader from '../../components/Loader/Loader.tsx';
 import { Container, Row, Col } from "react-bootstrap"
@@ -85,7 +85,7 @@ const LoginPage: FC = () => {
                         </Row>
                     </form>
 
-                    <a href="/register" className="form-link" style={{ textDecoration: "None"}}><h3>Регистрация</h3></a>
+                    <Link to="/register" className="form-link" style={{ textDecoration: "None"}}><h3>Регистрация</h3></Link>
                 </Container>
             </Row>
         </Container>

@@ -26,6 +26,12 @@ export interface ModelsNewStatus {
   status?: string;
 }
 
+export interface ModelsRequestAsyncService {
+  "Server-Token"?: string;
+  receipt?: string;
+  requestId?: number;
+}
+
 export interface ModelsThreat {
   count?: number;
   description?: string;
@@ -116,7 +122,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private format?: ResponseType;
 
   constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost:3001", withCredentials: true });
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "http://localhost:3001" , withCredentials: true});
     this.secure = secure;
     this.format = format;
     this.securityWorker = securityWorker;
@@ -355,6 +361,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/monitoring-requests/client`,
         method: "PUT",
         body: newStatus,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Accepts a payment request and sends it to the service.
+     *
+     * @name MonitoringRequestsUserPaymentStartUpdate
+     * @summary Handle user payment request
+     * @request PUT:/api/monitoring-requests/user-payment-start
+     */
+    monitoringRequestsUserPaymentStartUpdate: (request: ModelsRequestAsyncService, params: RequestParams = {}) =>
+      this.request<Record<string, any>, string>({
+        path: `/api/monitoring-requests/user-payment-start`,
+        method: "PUT",
+        body: request,
         type: ContentType.Json,
         format: "json",
         ...params,

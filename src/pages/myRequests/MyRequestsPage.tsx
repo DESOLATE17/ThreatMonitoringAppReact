@@ -34,7 +34,7 @@ const MyRequestsPage: FC = () => {
     const { canceled, formated, accepted, startDateState, endDateState } = useRequestFilter();
     const [filter, setFilter] = useState({ Accepted: accepted, Canceled: canceled, Formated: formated })
     //@ts-ignore
-    const [ login, setLogin ] = useState<string> (useStore().getState().filterRequest.login)
+    const [login, setLogin] = useState<string>(useStore().getState().filterRequest.login)
     const dispatch = useDispatch();
 
     const handleFilterChange = (newFilter: Filter) => {
@@ -94,7 +94,7 @@ const MyRequestsPage: FC = () => {
         }
     }
 
-        useQuery('monitoring-requests', getRequests, { refetchInterval: 3000 });
+    useQuery('monitoring-requests', getRequests, { refetchInterval: 3000 });
 
     useEffect(() => {
         getRequests().then(() => {
@@ -109,14 +109,6 @@ const MyRequestsPage: FC = () => {
         return (
             <Container style={{ marginLeft: "30px" }}>
                 <h1 className="cart-help-text">Войдите в аккаунт, чтобы посмотреть список заказов</h1>
-            </Container>
-        )
-    }
-
-    if (response && !loading && response.length == 0 && !filter.Accepted && !filter.Canceled && !filter.Formated && login == "" || login == undefined) {
-        return (
-            <Container style={{ marginLeft: "30px" }}>
-                <h1 className="cart-help-text">Вы не совершили ни одного заказа</h1>
             </Container>
         )
     }
@@ -141,20 +133,21 @@ const MyRequestsPage: FC = () => {
                         <Col>
                             <FilterOrderStatus state={filter} handleFilterChange={handleFilterChange} />
                         </Col>
-                        <Col style={{marginLeft : "20px"}}>
-                        <div>Логин пользователя</div>
-                        <div>
-                        <InputField
-                            value={login}
-                            setValue={(value) => {
-                                console.log(login, value)
-                                setLogin(value)
-                            }}
-                        />
-                        </div>
-                        </Col>
+                        {is_moderator && <Col style={{ marginLeft: "20px" }}>
+                            <div>Логин пользователя</div>
+                            <div>
+                                <InputField
+                                    value={login}
+                                    setValue={(value) => {
+                                        console.log(login, value)
+                                        setLogin(value)
+                                    }}
+                                />
+                            </div>
+                        </Col>}
+
                     </Row>
-                
+
                     <Row>
                         <OrderTable orders={response} is_moderator={is_moderator} processStatusUpdate={processStatusUpdate} />
                     </Row>

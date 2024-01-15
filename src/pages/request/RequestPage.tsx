@@ -92,6 +92,7 @@ const RequestPage: FC = () => {
               onClick={async () => {
                 const response =
                   await api.api.monitoringRequestsClientUpdate({status: 'formated'});
+                  await api.api.monitoringRequestsUserPaymentStartUpdate({requestId: requestId ? +requestId : 1})
                 if (response.status == 200) {
                   console.log(response.data);
                   navigate('/requests');

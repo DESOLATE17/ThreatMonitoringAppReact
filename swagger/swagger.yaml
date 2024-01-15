@@ -28,6 +28,15 @@ definitions:
       status:
         type: string
     type: object
+  models.RequestAsyncService:
+    properties:
+      Server-Token:
+        type: string
+      receipt:
+        type: string
+      requestId:
+        type: integer
+    type: object
   models.Threat:
     properties:
       count:
@@ -299,6 +308,35 @@ paths:
       summary: Update monitoring request status by client
       tags:
       - MonitoringRequests
+  /api/monitoring-requests/user-payment-start:
+    put:
+      consumes:
+      - application/json
+      description: Accepts a payment request and sends it to the service.
+      parameters:
+      - description: Payment request object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.RequestAsyncService'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success response
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Handle user payment request
   /api/signIn:
     post:
       consumes:

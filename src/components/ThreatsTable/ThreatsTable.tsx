@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import '../../../public/default.jpeg'
 import "./ThreatsTable.css"
@@ -47,7 +47,7 @@ const ThreatsTable: FC<Props> = ({ products }) => {
                     </Col>
                     <Col className="product-table-col" style={{ width: "28%" }}><div><ImageWrapper className="product-table-image" src={product.image} based="/default.jpeg" /></div></Col>
                     <Col className="product-table-col" style={{ width: "13%", display: "flex", flexDirection: "column" }}>
-                        {product.deleted ? <div></div> : <a href={`/threats/${product.threatId}`}><h2>Посмотреть</h2></a>}
+                        {product.deleted ? <div></div> : <Link to={`/threats/${product.threatId}`}><h2>Посмотреть</h2></Link>}
                         <button className="search-button cart-button update-button"
                             onClick={() => navigate(`/threats/update/${product.threatId}`)}>Изменить</button>
                     </Col>

@@ -15,7 +15,7 @@ import {
 } from "../../store/filterSlice";
 import { useDispatch } from "react-redux";
 import { useThreatsFilter } from "../../hooks/useThreatsList";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 const Threats: FC = () => {
@@ -102,9 +102,9 @@ const Threats: FC = () => {
               {threats.map((item) => (
                 <Card className="card">
                   <Card.Body className="card__content">
-                    <a href={`/threats/${item.threatId}`}>
+                    <Link to={`/threats/${item.threatId}`}>
                       <h3 className="card__name">{item.name}</h3>
-                    </a>
+                    </Link>
                     <div className="card_description"> {item.summary}</div>
                     <h4 className="card_description"> от {item.price} руб</h4>
                     <button
