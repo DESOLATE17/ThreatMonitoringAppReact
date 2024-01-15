@@ -8,20 +8,16 @@ const AppRouter: FC = () => {
     const router = createBrowserRouter(
         [
             {
-                path: '/',
+                path: '/ThreatMonitoringAppReact/',
                 element: <Threats />
             },
             {
-                path: '/threats',
+                path: '/ThreatMonitoringAppReact/threats',
                 element: <Threats />
             },
             {
-                path: '/threats/:threatId',
+                path: 'ThreatMonitoringAppReact/threats/:threatId',
                 element: <ThreatPage />
-            },
-            {
-                path: '*',
-                element: <Threats />
             }
         ]
     )

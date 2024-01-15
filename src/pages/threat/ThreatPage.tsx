@@ -50,7 +50,7 @@ const ThreatPage: FC = () => {
                 </Card.Body>
             <Card.Img className="card__image" src={card.image} onError={({ currentTarget }) => {
                             currentTarget.onerror = null; // prevents looping
-                            currentTarget.src="../../../dist/default.jpeg";
+                            currentTarget.src="../default.jpeg";
                         }}/>
             </Card>
         </div>
