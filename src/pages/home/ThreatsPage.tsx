@@ -11,10 +11,14 @@ import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs'
 import { Link } from 'react-router-dom'
 
 
+const filterMocks = (threats: Threat[], nameFilter: string, lowPrice: number, highPrice: number): Threat[] => {
+  return threats.filter((threat) => threat.name.includes(nameFilter) && threat.price <= highPrice && lowPrice >= lowPrice);
+}
+
 const getThreatsList = async (name = '', lowPrice: number, highPrice: number): Promise<ThreatsList> => {
   return fetch(`http://localhost:3000/api/threats?query=${name}&lowPrice=${lowPrice}&highPrice=${highPrice}`)
     .then((response) => response.json())
-    .catch(() => ({ draftId: 0, threats: mockThreats }))
+    .catch(() => ({ draftId: 0, threats: filterMocks(mockThreats, name, lowPrice, highPrice) }))
 }
 
 
