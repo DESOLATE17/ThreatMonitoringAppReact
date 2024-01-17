@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import "./Navbar.css"
 import { useAuth } from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../api';
 
 const Navbar: FC = () => {
@@ -44,8 +44,9 @@ const Navbar: FC = () => {
                 CyberThreats Monitoring
             </Col>
             <Col style={{ width: "30%", margin: "24px", display: "flex", justifyContent: "space-between", marginRight: "10%", alignItems: 'center' }} className="navbar_text">
-            <a className="navbar_text" href="/threats/table">Таблица угроз</a>
-                <a className="navbar_text" href="/requests">Заявки</a>
+                <Link className='navbar_text' to="/threats/">Список угроз</Link>
+                <Link className="navbar_text" to="/threats/table">Таблица угроз</Link>
+                <Link className="navbar_text" to="/requests">Заявки</Link>
                 <button className="navbar_text" style={{ backgroundColor: " #212121", border: 0 }} onClick={handleClick}>Выйти</button>
                 <div className="navbar_text">{user_login}</div>
             </Col>
@@ -58,7 +59,8 @@ const Navbar: FC = () => {
                 CyberThreats Monitoring
             </Col>
             <Col style={{ width: "20%", margin: "30px", display: "flex", justifyContent: "space-between", marginRight: "10%" }} className="navbar_text">
-                <a className="navbar_text" href="/requests">Заявки</a>
+                <Link className='navbar_text' to="/threats/">Список угроз</Link>
+                <Link className="navbar_text" to="/requests">Заявки</Link>
                 <button className="navbar_text" style={{ backgroundColor: " #212121", border: 0 }} onClick={handleClick}>Выйти</button>
                 <div className="navbar_text">{user_login}</div>
             </Col>
@@ -70,8 +72,9 @@ const Navbar: FC = () => {
             <Col style={{ margin: "30px" }} className='navbar_title'>
                 CyberThreats Monitoring
             </Col>
-            <Col style={{ margin: "30px 10% 30px  30px" }} className="navbar_text">
-                <a className="navbar_text" href="/login">Войти | Регистрация</a>
+            <Col style={{ margin: "30px 10% 30px  30px", display: "flex", justifyContent: "space-between", width: "20%" }} className="navbar_text">
+                <Link className='navbar_text' to="/threats/">Список угроз</Link>
+                <Link className="navbar_text" to="/login">Войти | Регистрация</Link>
             </Col>
         </Row>
     )

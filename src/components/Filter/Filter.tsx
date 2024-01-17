@@ -10,7 +10,7 @@ export interface Prices {
 }
 
 const MIN = 10000;
-const MAX = 1000000;
+const MAX = 100000;
 
 interface Props {
     min: number
