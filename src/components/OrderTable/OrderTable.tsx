@@ -43,11 +43,13 @@ const getStatusColor = (status: string | undefined) => {
 const OrderTable: FC<Props> = ({ orders, is_moderator, processStatusUpdate }) => {
     return (
         <div>
-            {is_moderator ? <Container id="order-table" style={{ marginTop: "20px", marginBottom: "50px", width: "100%" }}>
+            {is_moderator ? <Container id="order-table" style={{ marginTop: "20px", marginBottom: "50px", marginLeft: "-30px" ,width: "105%" }}>
                 <Row className="order-table-header" style={{ display: "flex", padding: "15px" }}>
                     <Col className="order-table-head" style={{ width: "8%" }}><h2>Номер</h2></Col>
                     <Col className="order-table-head" style={{ width: "14%" }}><h2>Пользователь</h2></Col>
-                    <Col className="order-table-head" style={{ width: "22%" }}><h2>Дата и время отправки</h2></Col>
+                    <Col className="order-table-head" style={{ width: "12%" }}><h2>Дата создания</h2></Col>
+                    <Col className="order-table-head" style={{ width: "12%"     }}><h2>Дата отправки</h2></Col>
+                    <Col className="order-table-head" style={{ width: "12%" }}><h2>Дата завершения</h2></Col>
                     <Col className="order-table-head" style={{ width: "12%" }}><h2>Статус</h2></Col>
                     <Col className="order-table-head" style={{ width: "10%" }}><h2>Модератор</h2></Col>
                     <Col className="order-table-head" style={{ width: "16%" }}><h2>Оплата</h2></Col>
@@ -57,7 +59,9 @@ const OrderTable: FC<Props> = ({ orders, is_moderator, processStatusUpdate }) =>
                     <Row className="order-table-row" key={index} style={{ display: "flex", padding: "15px",  borderTop: "2px groove black" }}>
                         <Col className="order-table-col" style={{ width: "8%" }}><h2>{order.requestId}</h2></Col>
                         <Col className="order-table-col" style={{ width: "14%" }}><h2>{order.creator}</h2></Col>
-                        <Col className="order-table-col" style={{ width: "22%" }}><h2>{getDate(order.formationDate ? order.formationDate : "")}</h2></Col>
+                        <Col className="order-table-col" style={{ width: "12%" }}><h2>{getDate(order.creationDate ? order.creationDate : "")}</h2></Col>
+                        <Col className="order-table-col" style={{ width: "12%" }}><h2>{getDate(order.formationDate ? order.formationDate : "")}</h2></Col>
+                        <Col className="order-table-col" style={{ width: "12%" }}><h2>{getDate(order.endingDate ? order.endingDate : "") == "01.01.1 02:30:17" ? "-" : getDate(order.endingDate ? order.endingDate : "") }</h2></Col>
                         <Col className="order-table-col" style={{ width: "12%" }}><h2>{getStatus(order.status)}</h2></Col>
                         <Col className="order-table-col" style={{ width: "10%" }}><h2>{order.admin}</h2></Col>
                         <Col className="order-table-col" style={{ width: "16%" }}><h2>{order.receipt == "" ? "Оплата не прошла" : order.receipt}</h2></Col>
@@ -73,19 +77,25 @@ const OrderTable: FC<Props> = ({ orders, is_moderator, processStatusUpdate }) =>
                 ))}
             </Container> : <Container id="order-table" style={{ marginTop: "20px", marginBottom: "50px", width: "100%", position: "relative" }}>
                 <Row className="order-table-header" style={{ display: "flex", padding: "15px" }}>
-                    <Col className="order-table-head" style={{ width: "20%" }}><h2>Номер</h2></Col>
-                    <Col className="order-table-head" style={{ width: "20%" }}><h2>Дата и время отправки</h2></Col>
-                    <Col className="order-table-head" style={{ width: "20%" }}><h2>Статус</h2></Col>
-                    <Col className="order-table-head" style={{ width: "20%" }}><h2>Модератор</h2></Col>
-                    <Col className="order-table-head" style={{ width: "20%" }}><h2>Ссылка</h2></Col>
+                    <Col className="order-table-head" style={{ width: "17%" }}><h2>Номер</h2></Col>
+                    <Col className="order-table-head" style={{ width: "17%" }}><h2>Дата создания</h2></Col>
+                    <Col className="order-table-head" style={{ width: "17%" }}><h2>Дата отправки</h2></Col>
+                    <Col className="order-table-head" style={{ width: "17%" }}><h2>Дата завершения</h2></Col>
+                    <Col className="order-table-head" style={{ width: "17%" }}><h2>Статус</h2></Col>
+                    <Col className="order-table-head" style={{ width: "15%" }}><h2>Оплата</h2></Col>
+                    <Col className="order-table-head" style={{ width: "17%" }}><h2>Модератор</h2></Col>
+                    <Col className="order-table-head" style={{ width: "17%" }}><h2>Ссылка</h2></Col>
                 </Row>
                 {orders?.map((order) => (
                     <Row className="order-table-row" key={order.requestId} style={{ display: "flex", padding: "15px", backgroundColor: "#212121", borderTop: "2px groove black" }}>
-                        <Col className="order-table-col" style={{ width: "20%" }}><h2>{order.requestId}</h2></Col>
-                        <Col className="order-table-col" style={{ width: "20%" }}><h2>{getDate(order.formationDate ? order.formationDate : "")}</h2></Col>
-                        <Col className="order-table-col" style={{ width: "20%" }}><h2>{getStatus(order.status)}</h2></Col>
-                        <Col className="order-table-col" style={{ width: "20%" }}><h2>{order.admin}</h2></Col>
-                        <Col className="order-table-col" style={{ width: "20%" }}><Link to={`/requests/${order.requestId}`}><h2>Посмотреть</h2></Link></Col>
+                        <Col className="order-table-col" style={{ width: "17%" }}><h2>{order.requestId}</h2></Col>
+                        <Col className="order-table-col" style={{ width: "17%" }}><h2>{getDate(order.creationDate ? order.creationDate : "")}</h2></Col>
+                        <Col className="order-table-col" style={{ width: "17%" }}><h2>{getDate(order.formationDate ? order.formationDate : "")}</h2></Col>
+                        <Col className="order-table-col" style={{ width: "17%" }}><h2>{getDate(order.endingDate ? order.endingDate : "") == "01.01.1 02:30:17" ? "-" : getDate(order.endingDate ? order.endingDate : "") }</h2></Col>
+                        <Col className="order-table-col" style={{ width: "17%" }}><h2>{getStatus(order.status)}</h2></Col>
+                        <Col className="order-table-col" style={{ width: "15%" }}><h2>{order.receipt == "" ? "Оплата не прошла" : order.receipt}</h2></Col>
+                        <Col className="order-table-col" style={{ width: "17%" }}><h2>{order.admin}</h2></Col>
+                        <Col className="order-table-col" style={{ width: "17%" }}><Link to={`/requests/${order.requestId}`}><h2>Посмотреть</h2></Link></Col>
                     </Row>
                 ))}
             </Container>
