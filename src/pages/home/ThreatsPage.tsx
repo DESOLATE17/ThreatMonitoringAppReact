@@ -24,7 +24,7 @@ const Threats: FC = () => {
   const [draftId, setDraftId] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { is_authenticated, resetUser} = useAuth();
+  const { is_authenticated, resetUser } = useAuth();
   const { lowPrice, highPrice, searchValue } = useThreatsFilter();
 
   const handleSearch = async () => {
@@ -50,7 +50,7 @@ const Threats: FC = () => {
 
   useEffect(() => {
     handleSearch();
-  }, [searchValue, lowPrice, highPrice]);
+  }, [lowPrice, highPrice]);
 
   const setFilter = (minVal: number, maxVal: number) => {
     dispatch(setLowPrice(minVal));
@@ -80,7 +80,7 @@ const Threats: FC = () => {
                 backgroundColor: "rgb(46, 44, 44, 0.6)",
                 fontSize: "1.25em",
               }}
-              className={`search-button ${draftId == 0? "": "cart-button"}`}
+              className={`search-button ${draftId == 0 ? "" : "cart-button"}`}
               onClick={handleClick}
               disabled={draftId == 0}
             >
@@ -89,10 +89,25 @@ const Threats: FC = () => {
             <Filter min={1000} max={100000} setFilter={setFilter} />
           </div>
           <div className="cards-with-search">
-            <InputField
-              value={searchValue}
-              setValue={(value) => dispatch(setSearchValue(value))}
-            />
+            <div style={{display: "flex"}}>
+              <InputField
+                value={searchValue}
+
+                setValue={(value) => dispatch(setSearchValue(value))}
+              />
+              <button
+                style={{
+                  width: "20%",
+                  backgroundColor: "rgb(46, 44, 44, 0.6)",
+                  marginLeft: "3px",
+                  fontSize: "1.25em",
+                }}
+                className={`search-button`}
+                onClick={handleSearch}
+              >
+                Поиск
+              </button>
+            </div>
             {!threats.length && (
               <div>
                 <h1>К сожалению, по вашему запросу ничего не найдено</h1>
@@ -113,7 +128,7 @@ const Threats: FC = () => {
                         backgroundColor: "rgb(46, 44, 44, 0.6)",
                         fontSize: "1.25em",
                       }}
-                      className={`search-button ${!is_authenticated? "": "cart-button"}`}
+                      className={`search-button ${!is_authenticated ? "" : "cart-button"}`}
                       onClick={async () => {
                         const response = await api.api.threatsRequestCreate(
                           item.threatId

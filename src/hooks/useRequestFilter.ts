@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-import { Filter } from '../pages/myRequests/MyRequestsPage';
 
 export function useRequestFilter() {
     //@ts-ignore
